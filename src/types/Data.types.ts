@@ -17,4 +17,5 @@ export namespace DataModels{
 }
 
 export type ForumBody = Pick<DataModels.Forum, "title" | "description">;
-export interface NewForum extends DataModels.Forum{}
+export interface NewForum extends DataModels.Forum { };
+export type ForumParam = { fid: string };

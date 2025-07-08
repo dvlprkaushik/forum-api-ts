@@ -1,5 +1,5 @@
 import { FORUMS } from "@/data/forumData.js";
-import type { ForumBody, NewForum } from "@/types/Data.types.js";
+import type { ForumBody, ForumParam, NewForum } from "@/types/Data.types.js";
 import { MSG, StCode } from "@/types/HttpUtils.types.js";
 import { asyncHandler } from "@/utils/AsyncHandler.js";
 import { forumsId } from "@/utils/GeneratorUtils.js";
@@ -29,4 +29,17 @@ export const createForum: RequestHandler<{}, {}, ForumBody> = asyncHandler(async
     }
     FORUMS.push(newForum);
     success(newForum, MSG.CREATED, StCode.CREATED);
+})
+
+export const getForumById: RequestHandler<ForumParam> = asyncHandler(async (req, res) => {
+    const { success, failed } = Responder(res);
+
+    const { fid } = req.params;
+    const forum = FORUMS.filter(f => f.id === fid);
+
+    if (forum.length === 0) {
+        return failed(MSG.NOT_FOUND, StCode.NOT_FOUND);
+    }
+
+    success(forum, MSG.OK, StCode.OK);
 })
