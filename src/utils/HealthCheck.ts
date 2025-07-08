@@ -7,14 +7,4 @@ export const healthCheck = (app: Application): void => {
         res.json({ status: "OK" });
     }
     app.get("/", health);
-
-    const info: Info = {
-        PORT: process.env.PORT,
-        BASE_URL: process.env.BASE_URL
-    }
-    try {
-        app.listen((info.PORT), () => console.log(chalk.bold.greenBright(`Server running on : ${info.BASE_URL}:${info.PORT}/`)))
-    } catch (error) {
-        console.log(chalk.bold.redBright(`Error running the server -> ${error}`));
-    }
 }

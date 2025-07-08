@@ -5,8 +5,8 @@ import { Responder } from "@/utils/Response.js";
 
 export const getForums = asyncHandler(async (req, res) => {
     const { success, failed} = Responder(res);
-    if (FORUMS.length !== 0) {
-        failed(MSG.NOT_FOUND, StCode.NOT_FOUND);
+    if (FORUMS.length === 0) {
+        return failed(MSG.NOT_FOUND, StCode.NOT_FOUND);
     }
     success(FORUMS,MSG.OK, StCode.OK);
 })
