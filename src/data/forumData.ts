@@ -21,4 +21,4 @@ export const FORUMS: DataModels.Forum[] = [
         title: "Gaming",
         description: "Share your gaming experiences and reviews"
     }
-  ];
+];

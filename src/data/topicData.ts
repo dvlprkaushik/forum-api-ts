@@ -59,4 +59,4 @@ export const TOPICS: DataModels.Topic[] = [
         title: "Gaming setup recommendations",
         forumId: FORUMS[3].id
     }
-  ];
+];

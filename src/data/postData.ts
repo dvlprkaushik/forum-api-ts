@@ -100,4 +100,4 @@ export const POSTS: DataModels.Post[] = [
         content: "I'm using the Keychron K2 and it's been great! Good build quality and not too expensive.",
         topicId: TOPICS[9].id
     }
-  ];
+];
