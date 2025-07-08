@@ -1,4 +1,4 @@
-import { createForum, getForums } from "@/controllers/topic.controller.js";
+import { createForum, getForums } from "@/controllers/forum.controller.js";
 import { Router } from "express";
 
 
