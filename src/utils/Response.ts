@@ -1,8 +1,5 @@
 import type { Response } from "express";
-
-const cp = (str: string): string => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-};
+import { cp } from "./GeneratorUtils.js";
 
 export const Responder = (res: Response) => ({
   success: <KS>(

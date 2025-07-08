@@ -15,3 +15,6 @@ export namespace DataModels{
         topicId: string; // foreign key
     }
 }
+
+export type ForumBody = Pick<DataModels.Forum, "title" | "description">;
+export interface NewForum extends DataModels.Forum{}
