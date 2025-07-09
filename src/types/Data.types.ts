@@ -24,3 +24,5 @@ export type ForumParam = { fid: string };
 
 // * TOPIC 
 export interface ForumTopicParam extends ForumParam { }; 
+export type ForumTopicBody = Pick<DataModels.Topic, "title">;
+export interface NewForumTopic extends DataModels.Topic { };  
