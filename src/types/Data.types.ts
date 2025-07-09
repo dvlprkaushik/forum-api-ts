@@ -26,4 +26,5 @@ export type ForumParam = { fid: string };
 export interface ForumTopicParam extends ForumParam { }; 
 export type TopicBody = Pick<DataModels.Topic, "title">;
 export interface NewTopic extends DataModels.Topic { };  
-export type TopicParam = { tid : string } & ForumParam;
+export type TopicParam = { tid: string } & ForumParam;
+export interface UpdateTopic extends DataModels.Topic { };
