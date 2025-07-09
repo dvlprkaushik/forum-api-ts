@@ -19,7 +19,6 @@ healthCheck(app);
 // Routes
 app.use("/api", forumRouter);
 
-
 // global-middlewares
 app.use(notFoundHandler);
 app.use(globalErrorMiddleware);

@@ -74,5 +74,6 @@ export const deleteForum: RequestHandler<ForumParam> = asyncHandler(async (req, 
     if (forumIndex === -1) {
         return failed(MSG.NOT_FOUND, StCode.NOT_FOUND);
     }
+    FORUMS.splice(forumIndex, 1);
     success(FORUMS[forumIndex], MSG.OK, StCode.OK)
 })
