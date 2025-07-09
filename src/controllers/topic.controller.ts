@@ -93,3 +93,19 @@ export const updateTopicById: RequestHandler<TopicParam, {}, TopicBody> =
 
     success(updatedTopic, MSG.OK, StCode.OK);
   });
+
+export const deleteTopic: RequestHandler<TopicParam> = asyncHandler(
+  async (req, res) => {
+    const { success, failed } = Responder(res);
+
+    const { fid, tid } = req.params;
+    const index = TOPICS.findIndex((t) => t.forumId === fid && t.id === tid);
+    if (index === -1) {
+      return failed(MSG.NOT_FOUND, StCode.NOT_FOUND);
+    }
+
+    TOPICS.splice(index, 1);
+
+    success(TOPICS[index], MSG.OK, StCode.OK);
+  }
+);
