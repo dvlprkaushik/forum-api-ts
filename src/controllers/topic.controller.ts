@@ -1,8 +1,9 @@
 import { TOPICS } from "@/data/topicData.js";
 import type {
-  ForumTopicBody,
+  TopicBody,
   ForumTopicParam,
-  NewForumTopic,
+  NewTopic,
+  TopicParam,
 } from "@/types/Data.types.js";
 import { MSG, StCode } from "@/types/HttpUtils.types.js";
 import { asyncHandler } from "@/utils/AsyncHandler.js";
@@ -27,12 +28,12 @@ export const getTopicsByForumId: RequestHandler<ForumTopicParam> = asyncHandler(
 export const createTopicByForumId: RequestHandler<
   ForumTopicParam,
   {},
-  ForumTopicBody
+  TopicBody
 > = asyncHandler(async (req, res) => {
   const { success, failed } = Responder(res);
 
   const { fid } = req.params;
-  const { title } = req?.body;
+  const { title } = req.body;
 
   if (!title) {
     return failed(MSG.BAD_REQUEST, StCode.BAD_REQUEST);
@@ -42,7 +43,7 @@ export const createTopicByForumId: RequestHandler<
     return failed(MSG.NOT_FOUND, StCode.NOT_FOUND);
   }
 
-  const newTopic: NewForumTopic = {
+  const newTopic: NewTopic = {
     id: topicId(),
     title: title,
     forumId: fid,
@@ -52,3 +53,14 @@ export const createTopicByForumId: RequestHandler<
 
   success(newTopic, MSG.CREATED, StCode.CREATED);
 });
+
+export const getTopicById: RequestHandler<TopicParam> = asyncHandler(async (req, res) => {
+    const { success, failed } = Responder(res);
+    
+    const { fid, tid } = req.params;
+    const index = TOPICS.findIndex((t) => t.forumId === fid && t.id === tid);
+    if (index === -1) {
+        return failed(MSG.NOT_FOUND, StCode.NOT_FOUND);
+    }
+    success(TOPICS[index], MSG.OK, StCode.OK);
+})
