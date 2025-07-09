@@ -1,5 +1,5 @@
 import { FORUMS } from "@/data/forumData.js";
-import type { ForumBody, ForumParam, NewForum } from "@/types/Data.types.js";
+import type { ForumBody, ForumParam, NewForum, UpdateForum } from "@/types/Data.types.js";
 import { MSG, StCode } from "@/types/HttpUtils.types.js";
 import { asyncHandler } from "@/utils/AsyncHandler.js";
 import { forumsId } from "@/utils/GeneratorUtils.js";
@@ -22,10 +22,10 @@ export const createForum: RequestHandler<{}, {}, ForumBody> = asyncHandler(async
         return failed(MSG.BAD_REQUEST, StCode.BAD_REQUEST);
     }
 
-    const newForum : NewForum = {
+    const newForum: NewForum = {
         id: forumsId(),
         title,
-        description : description ? description : undefined
+        description: description || undefined
     }
     FORUMS.push(newForum);
     success(newForum, MSG.CREATED, StCode.CREATED);
@@ -42,4 +42,26 @@ export const getForumById: RequestHandler<ForumParam> = asyncHandler(async (req,
     }
 
     success(forum, MSG.OK, StCode.OK);
+})
+
+export const updateForum: RequestHandler<ForumParam, {}, ForumBody> = asyncHandler(async (req, res) => {
+    const { success, failed } = Responder(res);
+
+    const { fid } = req.params;
+    const { title, description } = req.body;
+     
+    if (!title) {
+        return failed(MSG.BAD_REQUEST, StCode.BAD_REQUEST);
+    }
+    const forumIndex = FORUMS.findIndex(f => f.id === fid);
+    if (forumIndex === -1) {
+        return failed(MSG.NOT_FOUND, StCode.NOT_FOUND);
+    }
+    const updatedForum: UpdateForum = {
+        id : fid,
+        title : title,
+        description : description || undefined
+    }
+    FORUMS[forumIndex] = updatedForum;
+    success(updatedForum, MSG.OK, StCode.OK);
 })
