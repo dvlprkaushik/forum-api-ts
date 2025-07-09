@@ -49,7 +49,7 @@ export const updateForum: RequestHandler<ForumParam, {}, ForumBody> = asyncHandl
 
     const { fid } = req.params;
     const { title, description } = req.body;
-     
+
     if (!title) {
         return failed(MSG.BAD_REQUEST, StCode.BAD_REQUEST);
     }
@@ -58,10 +58,21 @@ export const updateForum: RequestHandler<ForumParam, {}, ForumBody> = asyncHandl
         return failed(MSG.NOT_FOUND, StCode.NOT_FOUND);
     }
     const updatedForum: UpdateForum = {
-        id : fid,
-        title : title,
-        description : description || undefined
+        id: fid,
+        title: title,
+        description: description || undefined
     }
     FORUMS[forumIndex] = updatedForum;
     success(updatedForum, MSG.OK, StCode.OK);
+})
+
+export const deleteForum: RequestHandler<ForumParam> = asyncHandler(async (req, res) => {
+    const { success, failed } = Responder(res);
+
+    const { fid } = req.params;
+    const forumIndex = FORUMS.findIndex(f => f.id === fid);
+    if (forumIndex === -1) {
+        return failed(MSG.NOT_FOUND, StCode.NOT_FOUND);
+    }
+    success(FORUMS[forumIndex], MSG.OK, StCode.OK)
 })
