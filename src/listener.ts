@@ -2,7 +2,7 @@ import type { Application } from "express";
 import type { Info } from "./types/Env.types.js";
 import chalk from "chalk";
 
-export const listner = (app : Application) :void => {
+export const listener = (app : Application) :void => {
     const info: Info = {
         PORT: process.env.PORT,
         BASE_URL: process.env.BASE_URL
