@@ -35,13 +35,13 @@ export const getForumById: RequestHandler<ForumParam> = asyncHandler(async (req,
     const { success, failed } = Responder(res);
 
     const { fid } = req.params;
-    const forum = FORUMS.filter(f => f.id === fid);
+    const forum = FORUMS.find(f => f.id === fid); // Changed from filter to find
 
-    if (forum.length === 0) {
+    if (!forum) {
         return failed(MSG.NOT_FOUND, StCode.NOT_FOUND);
     }
 
-    success(forum, MSG.OK, StCode.OK);
+    success(forum, MSG.OK, StCode.OK); // Now returns single object instead of array
 })
 
 export const updateForum: RequestHandler<ForumParam, {}, ForumBody> = asyncHandler(async (req, res) => {
@@ -74,6 +74,8 @@ export const deleteForum: RequestHandler<ForumParam> = asyncHandler(async (req, 
     if (forumIndex === -1) {
         return failed(MSG.NOT_FOUND, StCode.NOT_FOUND);
     }
+
+    const deletedForum = FORUMS[forumIndex]; // Store before deleting
     FORUMS.splice(forumIndex, 1);
-    success(FORUMS[forumIndex], MSG.OK, StCode.OK)
+    success(deletedForum, MSG.OK, StCode.OK); // Return stored forum
 })
