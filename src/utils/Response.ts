@@ -10,7 +10,7 @@ export const Responder = (res: Response) => ({
   ) => {
     return res.status(statusCode).json({
       success: success,
-      data: data,
+      data: data || {},
       message: cp(message),
     });
   },

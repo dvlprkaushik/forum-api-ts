@@ -28,3 +28,8 @@ export type TopicBody = Pick<DataModels.Topic, "title">;
 export interface NewTopic extends DataModels.Topic { };  
 export type TopicParam = { tid: string } & ForumParam;
 export interface UpdateTopic extends DataModels.Topic { };
+
+// * POST
+export interface TopicPostParam extends TopicParam { };
+export interface PostBody extends DataModels.Post { };
+export type PostResponse = Pick<DataModels.Post, "content">;
