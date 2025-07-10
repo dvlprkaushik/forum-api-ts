@@ -36,3 +36,4 @@ export type PostBody = Pick<DataModels.Post,"content">;
 export interface NewPost extends DataModels.Post { };
 export type PostResponse = Pick<DataModels.Post, "content">;
 export interface UpdatePost extends NewPost { }; 
+export interface DeletePost extends DataModels.Post { };

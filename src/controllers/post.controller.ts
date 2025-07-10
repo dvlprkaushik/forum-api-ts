@@ -2,6 +2,7 @@ import { FORUMS } from "@/data/forumData.js";
 import { POSTS } from "@/data/postData.js";
 import { TOPICS } from "@/data/topicData.js";
 import type {
+  DeletePost,
   NewPost,
   PostBody,
   PostParam,
@@ -30,7 +31,7 @@ export const getPosts: RequestHandler<TopicPostParam> = asyncHandler(
         postContents.push({ content: p.content });
       }
     }
-    success({ content: postContents }, MSG.OK, StCode.OK);
+    success(postContents, MSG.OK, StCode.OK);
   }
 );
 
@@ -53,7 +54,7 @@ export const createPost: RequestHandler<TopicPostParam, {}, PostBody> =
       topicId: tid,
     };
 
-    POSTS[tIndex] = newPost;
+    POSTS.push(newPost);
     success(newPost, MSG.CREATED, StCode.CREATED);
   });
 
@@ -99,5 +100,25 @@ export const updatePost: RequestHandler<PostParam, {}, PostBody> = asyncHandler(
     POSTS[pIndex] = updatedPost;
 
     success<PostResponse>({ content: updatedPost.content }, MSG.OK, StCode.OK);
+  }
+);
+
+export const deletePost: RequestHandler<PostParam> = asyncHandler(
+  async (req, res) => {
+    const { success, failed } = Responder(res);
+
+    const { fid, tid, pid } = req.params;
+
+    const fIndex = FORUMS.findIndex((f) => f.id === fid);
+    const tIndex = TOPICS.findIndex((t) => t.id === tid);
+    const pIndex = POSTS.findIndex((p) => p.id === pid && p.topicId === tid);
+    if (fIndex === -1 || tIndex === -1 || !pIndex) {
+      return failed(MSG.NOT_FOUND, StCode.NOT_FOUND);
+    }
+
+    const deletedPost = POSTS[pIndex];
+    POSTS.splice(pIndex, 1);
+
+    success<DeletePost>(deletedPost, MSG.OK, StCode.OK);
   }
 );
