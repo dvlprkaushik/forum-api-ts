@@ -122,32 +122,41 @@ curl -X POST http://localhost:3000/api/v1/forums/forum-id/topics/topic-id/posts 
 
 ```
 src/
+├── controllers/
+│   ├── forum.controller.ts
+│   ├── post.controller.ts
+│   └── topic.controller.ts
 │
 ├── routes/
 │   ├── forum.routes.ts
-│   ├── topic.routes.ts
-│   └── post.routes.ts
-│
-├── controllers/
-│   ├── forum.controller.ts
-│   ├── topic.controller.ts
-│   └── post.controller.ts
-│
-├── types/
-│   ├── forum.types.ts
-│   ├── topic.types.ts
-│   └── post.types.ts
-│
-├── data/
-│   └── data.ts
-│
-├── utils/
-│   └── makeResponder.ts
+│   ├── post.routes.ts
+│   └── topic.routes.ts
 │
 ├── middlewares/
-│   └── errorHandler.ts
+│   ├── endpointLogger.middleware.ts
+│   ├── errorHandler.middleware.ts
+│   └── express.middlewares.ts
 │
-└── index.ts
+├── types/
+│   ├── Data.types.ts
+│   ├── Env.types.ts
+│   └── HttpUtils.types.ts
+│
+├── utils/
+│   ├── AppErrors.ts
+│   ├── AsyncHandlers.ts
+│   ├── GeneratorUtils.ts
+│   ├── HealthCheck.ts
+│   └── Response.ts
+│
+├── data/
+│   ├── forumData.ts
+│   ├── postData.ts
+│   └── topicData.ts
+│
+├── env.d.ts
+├── index.ts
+└── listner.ts
 ```
 
 ## 🧪 Data Models
