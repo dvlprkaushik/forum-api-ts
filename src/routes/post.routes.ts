@@ -1,9 +1,9 @@
-import { createPost, getPost, getPosts } from "@/controllers/post.controller.js";
+import { createPost, getPost, getPosts, updatePost } from "@/controllers/post.controller.js";
 import { Router } from "express";
 
 const postRoutes = Router({ mergeParams: true });
 
 postRoutes.route("/posts").get(getPosts).post(createPost);
-postRoutes.route("/posts/:pid").get(getPost);
+postRoutes.route("/posts/:pid").get(getPost).put(updatePost);
 
 export { postRoutes };

@@ -7,6 +7,7 @@ import type {
   PostParam,
   PostResponse,
   TopicPostParam,
+  UpdatePost,
 } from "@/types/Data.types.js";
 import { MSG, StCode } from "@/types/HttpUtils.types.js";
 import { asyncHandler } from "@/utils/AsyncHandler.js";
@@ -29,7 +30,7 @@ export const getPosts: RequestHandler<TopicPostParam> = asyncHandler(
         postContents.push({ content: p.content });
       }
     }
-    success({content : postContents}, MSG.OK, StCode.OK);
+    success({ content: postContents }, MSG.OK, StCode.OK);
   }
 );
 
@@ -66,6 +67,37 @@ export const getPost: RequestHandler<PostParam> = asyncHandler(
     if (fIndex === -1 || tIndex === -1 || !post || post.topicId !== tid) {
       return failed(MSG.NOT_FOUND, StCode.NOT_FOUND);
     }
-    success<PostResponse>({content : post.content}, MSG.OK, StCode.OK);
+    success<PostResponse>({ content: post.content }, MSG.OK, StCode.OK);
+  }
+);
+
+export const updatePost: RequestHandler<PostParam, {}, PostBody> = asyncHandler(
+  async (req, res) => {
+    const { success, failed } = Responder(res);
+
+    const { fid, tid, pid } = req.params;
+    const { content } = req.body;
+
+    const fIndex = FORUMS.findIndex((f) => f.id === fid);
+    const tIndex = TOPICS.findIndex((t) => t.id === tid);
+    const pIndex = POSTS.findIndex((p) => p.id === pid);
+
+    if (fIndex === -1 || tIndex === -1 || pIndex === -1) {
+      return failed(MSG.NOT_FOUND, StCode.NOT_FOUND);
+    }
+
+    if (!content) {
+      return failed(MSG.BAD_REQUEST, StCode.BAD_REQUEST);
+    }
+
+    const updatedPost: UpdatePost = {
+      id: pid,
+      content: content,
+      topicId: tid,
+    };
+
+    POSTS[pIndex] = updatedPost;
+
+    success<PostResponse>({ content: updatedPost.content }, MSG.OK, StCode.OK);
   }
 );
